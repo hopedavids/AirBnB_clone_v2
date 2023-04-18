@@ -65,7 +65,7 @@ class FileStorage:
 
         my_dict = self.__objects
         if obj is not my_dict:
-            #print("** no instance found **")
+            print("** no instance found **")
             return
         del my_dict[obj]
 
