@@ -6,7 +6,7 @@ from models.base_model import Base
 from os import getenv
 
 
-class DB:
+class DBStorage:
     __engine = None
     __sessions = None
 
