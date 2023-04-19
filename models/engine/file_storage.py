@@ -59,15 +59,16 @@ class FileStorage:
 # to delete obj from __objects if it’s inside - if obj is equal to None, 
 # the method should not do anything
 
+    def close(self):
+        """Reload JSON objects
+        """
+        return self.reload()
+
     def delete(self, obj=None):
-        if obj is None:
-            return
-
-        my_dict = self.__objects
-        if obj is not my_dict:
-            print("** no instance found **")
-            return
-        del my_dict[obj]
-
-        storage.save()
+        """delete obj from __objects if present
+        """
+        if obj:
+            # format key from obj
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            del self.__objects[key]
 
