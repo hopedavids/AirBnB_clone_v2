@@ -8,7 +8,7 @@ from sqlalchemy import Column, Integer, DateTime
 
 
 Base = declarative_base()
-class BaseModel:
+class BaseModel(Base):
     """A base class for all hbnb models"""
     id = Column(Integer, nullable=False,  primary_key=True)
     created = Column(DateTime, nullable=False, default=datetime.utcnow())
