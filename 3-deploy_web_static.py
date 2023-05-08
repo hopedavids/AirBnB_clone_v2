@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-# This script automate the full deployment of the webserver suing Fabric in python
+# This script automate the full deployment of the webserver suing Fabric
+
+
 from fabric.api import *
 import os
 from datetime import datetime
