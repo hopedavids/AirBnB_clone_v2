@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# Using fabric to automate the process
 from fabric.api import *
 import os
 from datetime import datetime
@@ -7,6 +8,7 @@ env.hosts = ['localhost']
 
 
 def do_pack():
+    """this function does the packing of the script to a tar file """
     try:
         filepath = "versions/web_static_" + datetime.now().\
                    strftime("%Y%m%d%H%M%S") + ".tgz"
