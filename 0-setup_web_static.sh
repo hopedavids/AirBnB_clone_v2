@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Deploy static AirBnB webserver suing this bash script
-do apt-get update
+sudo apt-get update
 sudo apt-get -y install nginx
 sudo mkdir -p /data/ /data/web_static/ /data/web_static/releases/ /data/web_static/shared/ /data/web_static/releases/test/
 echo "Holberton School for the win!" | sudo tee /data/web_static/releases/test/index.html > /dev/null
