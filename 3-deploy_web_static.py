@@ -1,8 +1,9 @@
 #!/usr/bin/python3
+# This script automate the full deployment of the webserver suing Fabric in python
 from fabric.api import *
 import os
 from datetime import datetime
-# This scipts aim at the full deployment of the static web AirBnB app
+
 env.hosts = ['52.86.100.77', '54.161.238.41']
 
 
