@@ -8,52 +8,44 @@ from datetime import datetime
 env.hosts = ['52.86.100.77', '54.161.238.41']
 
 
-def deploy():
-    archive_path = do_pack()
-    if archive_path is None:
-        return False
-    return do_deploy(archive_path)
+def do_pack():
+    """Generate an tgz archive from web_static folder"""
+    try:
+        local("mkdir -p versions")
+        local("tar -cvzf versions/web_static_{}.tgz web_static/".
+              format(time.strftime("%Y%m%d%H%M%S")))
+        return ("versions/web_static_{}.tgz".format(time.
+                                                    strftime("%Y%m%d%H%M%S")))
+    except:
+        return None
 
 
 def do_deploy(archive_path):
-    """This function sets the deployment """
-    a_list = archive_path.split(".tgz")
-    archive_wo_ext = "".join(a_list)
-    b_list = archive_wo_ext.split("versions/")
-    archive_wo_ext_ver = "".join(b_list)
-    c_list = archive_path.split("versions/")
-    archive_wo_ver = "".join(c_list)
-    if archive_path:
-        put(archive_path, '/tmp/')
-        run("mkdir -p /data/web_static/releases/{}/".
-            format(archive_wo_ext_ver))
-        run("tar -zxf /tmp/{} -C /data/web_static/releases/{}/"
-            .format(archive_wo_ver, archive_wo_ext_ver))
-        run("rm -r /tmp/{}".format(archive_wo_ver))
-        run("mv /data/web_static/releases/{}/web_static/*\
-        /data/web_static/releases/{}/".format(archive_wo_ext_ver,
-                                              archive_wo_ext_ver))
-        run("rm -rf /data/web_static/releases/{}/web_static".
-            format(archive_wo_ext_ver))
-        run("rm -rf /data/web_static/current")
-        run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
-            format(archive_wo_ext_ver))
-        print("New version deployed!")
+    """Distribute an archive to web servers"""
+    if (os.path.isfile(archive_path) is False):
+        return False
+
+    try:
+        file = archive_path.split("/")[-1]
+        folder = ("/data/web_static/releases/" + file.split(".")[0])
+        put(archive_path, "/tmp/")
+        run("mkdir -p {}".format(folder))
+        run("tar -xzf /tmp/{} -C {}".format(file, folder))
+        run("rm /tmp/{}".format(file))
+        run("mv {}/web_static/* {}/".format(folder, folder))
+        run("rm -rf {}/web_static".format(folder))
+        run('rm -rf /data/web_static/current')
+        run("ln -s {} /data/web_static/current".format(folder))
+        print("Deployment done")
         return True
-    else:
+    except:
         return False
 
 
-def do_pack():
-    """ Deploymemt job """
+def deploy():
+    """Create and distributes an archive to web servers"""
     try:
-        filepath = "versions/web_static_" + datetime.now().\
-                   strftime("%Y%m%d%H%M%S") + ".tgz"
-        local("mkdir -p versions")
-        local("tar -zcvf versions/web_static_$(date +%Y%m%d%H%M%S).tgz\
-        web_static")
-        print("web_static packed: {} -> {}".
-              format(filepath, os.path.getsize(filepath)))
-        return filepath
+        path = do_pack()
+        return do_deploy(path)
     except:
-        return None
+        return False
