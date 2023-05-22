@@ -21,7 +21,7 @@ def hbnb():
     return "HBNB"
 
 
-@app.route('/c/<text>', strict_slashes=False)
+@app.route('/c/<text>')
 def c_is_fun(text):
     """ Returns C is fun on the route /c/<text>"""
     text = replace("_", "")
