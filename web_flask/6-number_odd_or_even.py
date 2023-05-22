@@ -51,8 +51,8 @@ def html_num(n):
 
 
 @app.route('/number_odd_or_even/<int:n>')
-def is_odd_or_even(n):
-    """ display html page only if n is an integer """
+def odd_or_even(n):
+    """ display different page depending on var given odd or even. """
     return render_template('6-number_odd_or_even.html', n=n)
 
 
