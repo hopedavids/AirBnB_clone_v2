@@ -1,24 +1,24 @@
 #!/usr/bin/python3
-""" This script starts the flask app and listern on 0.0.0.0:5000
-    on / route
-"""
+""" 5. Add fifth view func that displays HTML page if n is int """
 
 from flask import Flask
+from flask import render_template
 
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', strict_slashes=False)
-def hello_hbnb():
+@app.route('/')
+def hello_world():
     """ Returns some text. """
-    return "Hello HBNB!"
+    return 'Hello HBNB!'
 
 
-@app.route('/hbnb', strict_slashes=False)
-def hbnb():
-    """ Returns hbnb """
-    return "HBNB"
+@app.route('/hbnb')
+def hello():
+    """ Return other text. """
+    return 'HBNB'
 
 
 @app.route('/c/<text>')
@@ -38,7 +38,7 @@ def python_text(text='is cool'):
 
 @app.route('/number/<int:n>')
 def number_text(n):
-    """ replace with int only if given an integer. """
+    """ replace with int only if given int. """
     n = str(n)
     return '{} is a number'.format(n)
 
@@ -50,5 +50,5 @@ def html_num(n):
     return render_template('5-number.html', n=n)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
